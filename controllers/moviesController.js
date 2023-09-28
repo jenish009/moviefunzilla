@@ -54,10 +54,16 @@ const featureMovie = async (req, res) => {
 const getMovieById = async (req, res) => {
   try {
     let { _id } = req.query;
-    let data = await moviesModel
-      .find({ _id: _id })
-      .sort({ popularRank: -1 })
-      .limit(10);
+    
+    let data = await moviesModel.findOneAndUpdate(
+      { _id: _id },
+      { $inc: { popularRank: 1 } },
+      { new: true } 
+    );
+
+    if (!data) {
+      return res.status(404).send({ success: false, message: 'Movie not found' });
+    }
 
     res.status(200).send({ success: true, data: data });
   } catch (error) {
@@ -65,6 +71,7 @@ const getMovieById = async (req, res) => {
     res.status(400).send({ success: false, message: error.message });
   }
 };
+
 
 module.exports = {
   getAllMovies,
