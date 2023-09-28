@@ -51,8 +51,24 @@ const featureMovie = async (req, res) => {
   }
 };
 
+const getMovieById = async (req, res) => {
+  try {
+    let { _id } = req.query;
+    let data = await moviesModel
+      .find({ _id: _id })
+      .sort({ popularRank: -1 })
+      .limit(10);
+
+    res.status(200).send({ success: true, data: data });
+  } catch (error) {
+    console.log("error", error);
+    res.status(400).send({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   getAllMovies,
   createMovie,
   featureMovie,
+  getMovieById
 };

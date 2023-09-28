@@ -6,6 +6,8 @@ router
   .get("/getAllMovies", moviesController.getAllMovies)
   .post("/createMovie", moviesController.createMovie)
   .get("/featureMovie", moviesController.featureMovie)
+  .get("/getMovieById", moviesController.getMovieById)
+
 
 
 module.exports = router;
